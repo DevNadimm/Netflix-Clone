@@ -37,6 +37,7 @@ class _BottomNavigationBar extends StatelessWidget {
         indicator: const BoxDecoration(),
         unselectedLabelColor: Colors.grey,
         labelColor: Colors.red,
+        dividerColor: Colors.transparent,
       ),
     );
   }
