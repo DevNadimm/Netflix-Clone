@@ -22,11 +22,12 @@ class HomeScreen extends StatelessWidget {
               color: Colors.blue,
               height: 27,
               width: 27,
+              child: Center(
+                child: Icon(Icons.person, color: Colors.white, size: 16),
+              ),
             ),
           ),
-          SizedBox(
-            width: 20,
-          )
+          SizedBox(width: 20),
         ],
         centerTitle: false,
       ),
