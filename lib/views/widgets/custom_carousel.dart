@@ -56,7 +56,7 @@ class CustomCarousel extends StatelessWidget {
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
         autoPlayAnimationDuration: const Duration(seconds: 1),
-        viewportFraction: 0.45,
+        viewportFraction: 0.43,
       ),
     );
   }
