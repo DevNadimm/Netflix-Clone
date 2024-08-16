@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_model.dart';
+import 'package:netflix_clone/models/tv_series_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
 import 'package:netflix_clone/views/widgets/movie_card_widget.dart';
 
@@ -13,12 +14,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<MovieModel> upcomingMovies;
   late Future<MovieModel> nowPlayingMovies;
+  late Future<TvSeriesModel> tvSeries;
   ApiServices apiServices = ApiServices();
 
   @override
   void initState() {
     upcomingMovies = apiServices.getUpcomingMovies();
     nowPlayingMovies = apiServices.getNowPlayingMovies();
+    tvSeries = apiServices.getTvSeries();
     super.initState();
   }
 
