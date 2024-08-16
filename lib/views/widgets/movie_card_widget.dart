@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_model.dart';
-import 'package:netflix_clone/utils/utils.dart';
 
 class MovieCardWidget extends StatelessWidget {
   final Future<MovieModel> future;
   final String headLineText;
+  final imageUrl = 'https://image.tmdb.org/t/p/w500';
 
   const MovieCardWidget({
     super.key,
