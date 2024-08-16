@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_model.dart';
 import 'package:netflix_clone/models/tv_series_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
+import 'package:netflix_clone/views/widgets/custom_carousel.dart';
 import 'package:netflix_clone/views/widgets/movie_card_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,15 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 20),
         ],
         centerTitle: false,
+        surfaceTintColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            CustomCarousel(future: tvSeries),
+            SizedBox(
+              height: 25,
+            ),
             MovieCardWidget(
               future: upcomingMovies,
               headLineText: 'Upcoming Movies',
             ),
-            SizedBox(height: 25,),
+            SizedBox(
+              height: 25,
+            ),
             MovieCardWidget(
               future: nowPlayingMovies,
               headLineText: 'Now Playing',
