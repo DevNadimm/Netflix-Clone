@@ -58,9 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CustomCarousel(future: tvSeries),
+            CustomCarousel(
+              future: tvSeries,
+              height: MediaQuery.sizeOf(context).height,
+            ),
             SizedBox(
-              height: 25,
+              height: 15,
             ),
             MovieCardWidget(
               future: upcomingMovies,

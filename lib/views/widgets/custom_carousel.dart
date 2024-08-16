@@ -5,8 +5,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class CustomCarousel extends StatelessWidget {
   final Future<TvSeriesModel> future;
+  final double height;
 
-  const CustomCarousel({super.key, required this.future});
+  const CustomCarousel({super.key, required this.future, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +49,21 @@ class CustomCarousel extends StatelessWidget {
         return _buildCarouselItem(series.name, imageUrl);
       },
       options: CarouselOptions(
-        height: 300,
+        height: height * 0.33,
         enlargeCenterPage: true,
         autoPlay: true,
         aspectRatio: 9 / 16,
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
         autoPlayAnimationDuration: const Duration(seconds: 1),
-        viewportFraction: 0.5,
+        viewportFraction: 0.45,
       ),
     );
   }
 
   Widget _buildCarouselItem(String title, String imageUrl) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
