@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:netflix_clone/models/tv_series_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -16,7 +17,7 @@ class CustomCarousel extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CupertinoActivityIndicator(),
           );
         } else if (snapshot.hasError) {
           return Center(
@@ -70,21 +71,16 @@ class CustomCarousel extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(
-                    child: CupertinoActivityIndicator(),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(
-                    child: Text('Image load error'),
-                  );
-                },
+                placeholder: (context, url) => const Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+                errorWidget: (context, url, error) => const Center(
+                  child: Text('Image load error'),
+                ),
               ),
             ),
           ),
