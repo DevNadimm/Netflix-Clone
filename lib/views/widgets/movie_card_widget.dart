@@ -47,7 +47,7 @@ class MovieCardWidget extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           "$imageUrl${movie.posterPath}",
                           fit: BoxFit.cover,
