@@ -17,7 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
   final ApiServices apiServices = ApiServices();
   SearchModel? searchResult;
-  PopularMovieModel? popularMoviesResult;
+  PopularMovieModel? popularMovies;
   bool isLoading = true;
 
   @override
@@ -31,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
     try {
       final movies = await apiServices.getPopularMovies();
       setState(() {
-        popularMoviesResult = movies;
+        popularMovies = movies;
         isLoading = false;
       });
     } catch (e) {
@@ -122,9 +122,9 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
 
-    if (popularMoviesResult != null) {
+    if (popularMovies != null) {
       return Expanded(
-        child: PopularMoviesList(popularMovies: popularMoviesResult!),
+        child: PopularMoviesList(popularMovies: popularMovies!),
       );
     }
 
