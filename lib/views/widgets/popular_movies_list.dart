@@ -15,9 +15,8 @@ class PopularMoviesList extends StatelessWidget {
       itemCount: movieModel.results.length,
       itemBuilder: (context, index) {
         final result = movieModel.results[index];
-        final posterUrl = result.posterPath != null
-            ? 'https://image.tmdb.org/t/p/w500${result.posterPath}'
-            : null;
+        final String posterUrl =
+            'https://image.tmdb.org/t/p/w500${result.posterPath}';
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -27,7 +26,7 @@ class PopularMoviesList extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CachedNetworkImage(
-                  imageUrl: posterUrl ?? 'assets/logo/netflix_logo.png',
+                  imageUrl: posterUrl,
                   fit: BoxFit.cover,
                   width: 100,
                   height: 150,
@@ -59,7 +58,7 @@ class PopularMoviesList extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Release Date: ${result.releaseDate ?? 'Unknown'}',
+                      'Release Date: ${result.releaseDate}',
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
@@ -76,7 +75,7 @@ class PopularMoviesList extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          result.voteAverage?.toStringAsFixed(1) ?? 'N/A',
+                          result.voteAverage.toStringAsFixed(1),
                           style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 14,
