@@ -13,14 +13,14 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   ApiServices apiServices = ApiServices();
-  late SearchModel searchModel;
+  late SearchModel searchResult;
 
   void onSearch(String query) {
     apiServices.getSearchedMovies(query).then(
-          (results) {
+      (results) {
         setState(
-              () {
-            searchModel = results;
+          () {
+            searchResult = results;
           },
         );
       },
