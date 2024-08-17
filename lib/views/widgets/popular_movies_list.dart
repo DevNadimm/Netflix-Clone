@@ -4,17 +4,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:netflix_clone/models/popular_movie_model.dart';
 
 class PopularMoviesList extends StatelessWidget {
-  final PopularMovieModel movieModel;
+  final PopularMovieModel popularMovies;
 
-  const PopularMoviesList({required this.movieModel, Key? key})
+  const PopularMoviesList({required this.popularMovies, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: movieModel.results.length,
+      itemCount: popularMovies.results.length,
       itemBuilder: (context, index) {
-        final result = movieModel.results[index];
+        final result = popularMovies.results[index];
         final String posterUrl =
             'https://image.tmdb.org/t/p/w500${result.posterPath}';
 

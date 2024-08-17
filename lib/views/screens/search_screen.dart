@@ -14,10 +14,10 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController searchController = TextEditingController();
-  ApiServices apiServices = ApiServices();
+  final TextEditingController searchController = TextEditingController();
+  final ApiServices apiServices = ApiServices();
   SearchModel? searchResult;
-  PopularMovieModel? popularMovies;
+  PopularMovieModel? popularMoviesResult;
   bool isLoading = true;
 
   @override
@@ -27,11 +27,11 @@ class _SearchScreenState extends State<SearchScreen> {
     searchController.addListener(_onSearchChanged);
   }
 
-  void _fetchPopularMovies() async {
+  Future<void> _fetchPopularMovies() async {
     try {
       final movies = await apiServices.getPopularMovies();
       setState(() {
-        popularMovies = movies;
+        popularMoviesResult = movies;
         isLoading = false;
       });
     } catch (e) {
@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  void _performSearch(String query) async {
+  Future<void> _performSearch(String query) async {
     try {
       final results = await apiServices.getSearchedMovies(query);
       setState(() {
@@ -77,39 +77,62 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: CupertinoSearchTextField(
-                padding: const EdgeInsets.all(10),
-                controller: searchController,
-                style: const TextStyle(color: Colors.white),
-                placeholder: 'Search for movies...',
-              ),
-            ),
-            Expanded(
-              child: isLoading
-                  ? const Center(
-                      child: CupertinoActivityIndicator(),
-                    )
-                  : searchResult != null
-                      ? searchResult!.results.isEmpty
-                          ? const Center(
-                              child: Text(
-                                'No results found',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )
-                          : SearchMoviesGrid(searchResult: searchResult!)
-                      : popularMovies != null
-                          ? PopularMoviesList(movieModel: popularMovies!)
-                          : const Center(
-                              child: Text(
-                                'Failed to load popular movies',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-            ),
+            _buildSearchField(),
+            _buildContent(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: CupertinoSearchTextField(
+        padding: const EdgeInsets.all(10),
+        controller: searchController,
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (isLoading) {
+      return const Expanded(
+        child: Center(
+          child: CupertinoActivityIndicator(),
+        ),
+      );
+    }
+
+    if (searchResult != null) {
+      if (searchResult!.results.isEmpty) {
+        return const Expanded(
+          child: Center(
+            child: Text(
+              'No results found',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      } else {
+        return Expanded(
+          child: SearchMoviesGrid(searchResult: searchResult!),
+        );
+      }
+    }
+
+    if (popularMoviesResult != null) {
+      return Expanded(
+        child: PopularMoviesList(popularMovies: popularMoviesResult!),
+      );
+    }
+
+    return const Expanded(
+      child: Center(
+        child: Text(
+          'Failed to load popular movies',
+          style: TextStyle(color: Colors.white),
         ),
       ),
     );
