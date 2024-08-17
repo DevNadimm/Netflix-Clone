@@ -31,6 +31,27 @@ class ApiServices {
   }
 
 
+  Future<MovieModel> getPopularMovies() async {
+    const endPoint = 'movie/popular';
+    final url = '$baseUrl$endPoint$key';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('Successfully fetched popular movies.');
+        return MovieModel.fromJson(data);
+      } else {
+        throw Exception(
+            'Failed to load popular movies. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('An error occurred while fetching popular movies: $e');
+    }
+  }
+
+
   Future<MovieModel> getNowPlayingMovies() async {
     const endPoint = 'movie/now_playing';
     final url = '$baseUrl$endPoint$key';

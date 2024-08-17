@@ -19,9 +19,11 @@ class _SearchScreenState extends State<SearchScreen> {
   void onSearch(String query) {
     apiServices.getSearchedMovies(query).then(
       (results) {
-        setState(() {
-          searchResult = results;
-        });
+        setState(
+          () {
+            searchResult = results;
+          },
+        );
       },
     );
   }
@@ -45,19 +47,25 @@ class _SearchScreenState extends State<SearchScreen> {
                 controller: searchController,
                 style: TextStyle(color: Colors.white),
                 onChanged: (value) {
-                  onSearch(searchController.text.trim());
+                  onSearch(
+                    searchController.text.trim(),
+                  );
                 },
               ),
             ),
             if (searchResult == null)
               Center(
-                child: Text('Search for movies',
-                    style: TextStyle(color: Colors.white)),
+                child: Text(
+                  'Search for movies',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             else if (searchResult!.results.isEmpty)
               Center(
-                child: Text('No results found',
-                    style: TextStyle(color: Colors.white)),
+                child: Text(
+                  'No results found',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             else
               Expanded(
@@ -66,8 +74,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: .7,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
                   ),
                   itemBuilder: (context, index) {
                     final result = searchResult!.results[index];
