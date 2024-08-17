@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:netflix_clone/models/popular_movie_model.dart';
 import 'package:netflix_clone/models/search_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
+import 'package:netflix_clone/views/widgets/popular_movies_list.dart';
+import 'package:netflix_clone/views/widgets/search_movies_grid.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -15,21 +17,56 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   ApiServices apiServices = ApiServices();
   SearchModel? searchResult;
+  PopularMovieModel? popularMovies;
+  bool isLoading = true;
 
-  void onSearch(String query) {
-    apiServices.getSearchedMovies(query).then(
-      (results) {
-        setState(
-          () {
-            searchResult = results;
-          },
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _fetchPopularMovies();
+    searchController.addListener(_onSearchChanged);
+  }
+
+  void _fetchPopularMovies() async {
+    try {
+      final movies = await apiServices.getPopularMovies();
+      setState(() {
+        popularMovies = movies;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching popular movies: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void _onSearchChanged() {
+    final query = searchController.text.trim();
+    if (query.isEmpty) {
+      setState(() {
+        searchResult = null;
+      });
+    } else {
+      _performSearch(query);
+    }
+  }
+
+  void _performSearch(String query) async {
+    try {
+      final results = await apiServices.getSearchedMovies(query);
+      setState(() {
+        searchResult = results;
+      });
+    } catch (e) {
+      print('Error searching for movies: $e');
+    }
   }
 
   @override
   void dispose() {
+    searchController.removeListener(_onSearchChanged);
     searchController.dispose();
     super.dispose();
   }
@@ -43,90 +80,35 @@ class _SearchScreenState extends State<SearchScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CupertinoSearchTextField(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 controller: searchController,
-                style: TextStyle(color: Colors.white),
-                onChanged: (value) {
-                  onSearch(
-                    searchController.text.trim(),
-                  );
-                },
+                style: const TextStyle(color: Colors.white),
+                placeholder: 'Search for movies...',
               ),
             ),
-            if (searchResult == null)
-              Center(
-                child: Text(
-                  'Search for movies',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            else if (searchResult!.results.isEmpty)
-              Center(
-                child: Text(
-                  'No results found',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            else
-              Expanded(
-                child: GridView.builder(
-                  itemCount: searchResult!.results.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: .7,
-                  ),
-                  itemBuilder: (context, index) {
-                    final result = searchResult!.results[index];
-                    final posterUrl = result.posterPath != null
-                        ? 'https://image.tmdb.org/t/p/w500${result.posterPath}'
-                        : null; // Set to null if posterPath is not available
-
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl:
-                                  posterUrl ?? 'assets/logo/netflix_logo.png',
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
+            Expanded(
+              child: isLoading
+                  ? const Center(
+                      child: CupertinoActivityIndicator(),
+                    )
+                  : searchResult != null
+                      ? searchResult!.results.isEmpty
+                          ? const Center(
+                              child: Text(
+                                'No results found',
+                                style: TextStyle(color: Colors.white),
                               ),
-                              errorWidget: (context, url, error) => Center(
-                                child: Image.asset(
-                                  'assets/logo/netflix_logo.png',
-                                ),
+                            )
+                          : SearchMoviesGrid(searchResult: searchResult!)
+                      : popularMovies != null
+                          ? PopularMoviesList(movieModel: popularMovies!)
+                          : const Center(
+                              child: Text(
+                                'Failed to load popular movies',
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                color: Colors.black.withOpacity(0.5),
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  result.title,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+            ),
           ],
         ),
       ),
