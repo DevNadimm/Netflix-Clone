@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:netflix_clone/models/movie_detailed_model.dart';
 import 'package:netflix_clone/models/movie_model.dart';
 import 'package:netflix_clone/models/popular_movie_model.dart';
 import 'package:netflix_clone/models/search_model.dart';
@@ -91,6 +92,27 @@ class ApiServices {
       }
     } catch (e) {
       throw Exception('An error occurred while fetching TV series: $e');
+    }
+  }
+
+
+  Future<MovieDetailedModel> getMovieDetail(int id) async {
+    const endPoint = 'movie/';
+    final url = '$baseUrl$endPoint$id$key';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('Successfully fetched movie detail.');
+        return MovieDetailedModel.fromJson(data);
+      } else {
+        throw Exception(
+            'Failed to load movie detail. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('An error occurred while fetching movie detail: $e');
     }
   }
 
