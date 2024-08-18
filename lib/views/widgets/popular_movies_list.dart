@@ -19,7 +19,7 @@ class PopularMoviesList extends StatelessWidget {
             'https://image.tmdb.org/t/p/w500${result.posterPath}';
 
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: const EdgeInsets.all(10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
