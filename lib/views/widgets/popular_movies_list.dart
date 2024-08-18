@@ -21,94 +21,92 @@ class PopularMoviesList extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.all(10),
-          child: GestureDetector(
+          child: InkWell(
             onTap: () {
               Navigator.push(
                 context,
-                CupertinoPageRoute(
+                MaterialPageRoute(
                   builder: (context) => MovieDetailScreen(id: result.id),
                 ),
               );
             },
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: posterUrl,
-                      fit: BoxFit.cover,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                    imageUrl: posterUrl,
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 150,
+                    placeholder: (context, url) => const Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/logo/netflix_logo.png',
                       width: 100,
                       height: 150,
-                      placeholder: (context, url) => const Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
-                      errorWidget: (context, url, error) => Image.asset(
-                        'assets/logo/netflix_logo.png',
-                        width: 100,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          result.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        result.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'Release Date: ${result.releaseDate}',
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 14,
-                          ),
-                          maxLines: 1,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Release Date: ${result.releaseDate}',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
                         ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                              size: 16,
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            result.voteAverage.toStringAsFixed(1),
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
                             ),
-                            const SizedBox(width: 5),
-                            Text(
-                              result.voteAverage.toStringAsFixed(1),
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          result.overview,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
                           ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        result.overview,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
                         ),
-                      ],
-                    ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
