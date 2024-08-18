@@ -120,6 +120,14 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             ),
           SizedBox(height: 8),
           if (movie.genres.isNotEmpty) _buildGenresRow(movie.genres),
+          SizedBox(height: 8),
+          Text(
+            'Revenue: \$${movie.revenue.toString()}',
+            style: _infoTextStyle,
+          ),
+          SizedBox(height: 8),
+          if (movie.spokenLanguages.isNotEmpty)
+            _buildSpokenLanguagesRow(movie.spokenLanguages),
           SizedBox(height: 16),
           Text(
             movie.overview,
@@ -172,6 +180,26 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           style: _infoTextStyle,
         ),
       ],
+    );
+  }
+
+  Widget _buildSpokenLanguagesRow(List<SpokenLanguage> languages) {
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: languages.map((language) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(3),
+          ),
+          child: Text(
+            language.name,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+        );
+      }).toList(),
     );
   }
 
