@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/services/api_services.dart';
 import 'package:netflix_clone/models/movie_detailed_model.dart';
+import 'package:netflix_clone/services/api_services.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-  const MovieDetailScreen({Key? key, required this.id}) : super(key: key);
-
   final int id;
+
+  const MovieDetailScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _MovieDetailScreenState createState() => _MovieDetailScreenState();
@@ -35,8 +35,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             return _buildErrorWidget(snapshot.error);
           }
           if (snapshot.hasData) {
-            final movie = snapshot.data!;
-            return _buildMovieDetail(movie);
+            return _buildMovieDetail(snapshot.data!);
           }
           return Center(child: Text('No data available.'));
         },
@@ -56,99 +55,104 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Widget _buildMovieDetail(MovieDetailedModel movie) {
     return Stack(
       children: [
-        _buildMoviePoster(movie.backdropPath),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildMoviePoster(movie.posterPath),
+              _buildMovieInfo(movie),
+            ],
+          ),
+        ),
         _buildBackButton(),
-        _buildMovieInfo(movie),
       ],
     );
   }
 
-  Widget _buildMoviePoster(String backdropPath) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: Image.network(
-        'https://image.tmdb.org/t/p/w500$backdropPath',
-        fit: BoxFit.cover,
-        height: 300,
-        errorBuilder: (context, error, stackTrace) {
-          return Image.asset(
-            'assets/logo/netflix.png',
-            fit: BoxFit.cover,
-            height: 300,
-          );
-        },
+  Widget _buildMoviePoster(String? posterPath) {
+    return Container(
+      width: double.infinity,
+      child: posterPath != null
+          ? Image.network(
+              'https://image.tmdb.org/t/p/w500$posterPath',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/logo/netflix_logo.png',
+                  fit: BoxFit.cover,
+                );
+              },
+            )
+          : Image.asset(
+              'assets/logo/netflix_logo.png',
+              fit: BoxFit.cover,
+            ),
+    );
+  }
+
+  Widget _buildMovieInfo(MovieDetailedModel movie) {
+    return Container(
+      color: Colors.black54,
+      padding: EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16), // Space for the back button
+          Text(
+            movie.title,
+            style: _titleTextStyle,
+          ),
+          SizedBox(height: 8),
+          if (movie.voteAverage != null) _buildRatingRow(movie.voteAverage),
+          SizedBox(height: 8),
+          if (movie.releaseDate != null)
+            Text(
+              'Release Date: ${movie.releaseDate}',
+              style: _infoTextStyle,
+            ),
+          SizedBox(height: 8),
+          if (movie.genres.isNotEmpty) _buildGenresRow(movie.genres),
+          SizedBox(height: 16),
+          Text(
+            movie.overview,
+            style: _overviewTextStyle,
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildBackButton() {
     return Positioned(
-      top: 40,
-      left: 10,
-      child: IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-
-  Widget _buildMovieInfo(MovieDetailedModel movie) {
-    return Positioned(
-      top: 300,
+      top: 50,
       left: 0,
-      right: 0,
-      child: Container(
-        color: Colors.black54,
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              movie.title,
-              style: _titleTextStyle,
-            ),
-            SizedBox(height: 8),
-            _buildRatingRow(movie.voteAverage),
-            SizedBox(height: 8),
-            Text(
-              'Release Date: ${movie.releaseDate}',
-              style: _infoTextStyle,
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Genres: ${movie.genres.join(', ')}',
-              style: _infoTextStyle,
-            ),
-            SizedBox(height: 16),
-            Text(
-              movie.overview,
-              style: _overviewTextStyle,
-            ),
-          ],
-        ),
+      child: IconButton(
+        icon: Icon(Icons.arrow_back_ios_new_rounded,
+            color: Colors.white, size: 30),
+        onPressed: () => Navigator.pop(context),
       ),
     );
   }
 
-  TextStyle get _titleTextStyle => TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-  );
-
-  TextStyle get _infoTextStyle => TextStyle(
-    fontSize: 16,
-    color: Colors.white70,
-  );
-
-  TextStyle get _overviewTextStyle => TextStyle(
-    fontSize: 16,
-    color: Colors.white,
-  );
+  Widget _buildGenresRow(List<Genre> genres) {
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: genres.map((genre) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(3),
+          ),
+          child: Text(
+            genre.name,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+        );
+      }).toList(),
+    );
+  }
 
   Widget _buildRatingRow(double voteAverage) {
     return Row(
@@ -162,4 +166,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       ],
     );
   }
+
+  TextStyle get _titleTextStyle => TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      );
+
+  TextStyle get _infoTextStyle => TextStyle(
+        fontSize: 16,
+        color: Colors.white70,
+      );
+
+  TextStyle get _overviewTextStyle => TextStyle(
+        fontSize: 16,
+        color: Colors.white,
+      );
 }
