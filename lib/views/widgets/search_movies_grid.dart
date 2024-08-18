@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:netflix_clone/models/search_model.dart';
+import 'package:netflix_clone/views/screens/movie_detail_screen.dart';
 
 class SearchMoviesGrid extends StatelessWidget {
   final SearchModel searchResult;
@@ -26,43 +27,53 @@ class SearchMoviesGrid extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: posterUrl ?? 'assets/logo/netflix_logo.png',
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CupertinoActivityIndicator(),
-                    ),
-                    errorWidget: (context, url, error) => Center(
-                      child: Image.asset(
-                        'assets/logo/netflix_logo.png',
-                      ),
-                    ),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetailScreen(id: result.id),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      color: Colors.black.withOpacity(0.5),
-                      padding: const EdgeInsets.all(5),
-                      child: Text(
-                        result.title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: posterUrl ?? 'assets/logo/netflix_logo.png',
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                      errorWidget: (context, url, error) => Center(
+                        child: Image.asset(
+                          'assets/logo/netflix_logo.png',
                         ),
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        color: Colors.black.withOpacity(0.5),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          result.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
