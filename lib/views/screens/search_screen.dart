@@ -7,7 +7,9 @@ import 'package:netflix_clone/views/widgets/popular_movies_list.dart';
 import 'package:netflix_clone/views/widgets/search_movies_grid.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final bool isBackButtonShow;
+
+  const SearchScreen({super.key, this.isBackButtonShow = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -88,10 +90,23 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildSearchField() {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: CupertinoSearchTextField(
-        padding: const EdgeInsets.all(10),
-        controller: searchController,
-        style: const TextStyle(color: Colors.white),
+      child: Row(
+        children: [
+          if (widget.isBackButtonShow)
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
+          Expanded(
+            child: CupertinoSearchTextField(
+              padding: const EdgeInsets.all(10),
+              controller: searchController,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
     );
   }
