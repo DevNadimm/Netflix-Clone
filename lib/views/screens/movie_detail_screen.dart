@@ -72,21 +72,29 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Widget _buildMoviePoster(String? posterPath) {
     return Container(
       width: double.infinity,
-      child: posterPath != null
-          ? Image.network(
-              'https://image.tmdb.org/t/p/w500$posterPath',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/logo/netflix_logo.png',
-                  fit: BoxFit.cover,
+      child: Stack(
+        children: [
+          Image.network(
+            'https://image.tmdb.org/t/p/w500$posterPath',
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return Center(
+                  child: CupertinoActivityIndicator(),
                 );
-              },
-            )
-          : Image.asset(
-              'assets/logo/netflix_logo.png',
-              fit: BoxFit.cover,
-            ),
+              }
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                'assets/logo/netflix_logo.png',
+                fit: BoxFit.cover,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -97,13 +105,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16), // Space for the back button
+          SizedBox(height: 10),
           Text(
             movie.title,
             style: _titleTextStyle,
           ),
           SizedBox(height: 8),
-          if (movie.voteAverage != null) _buildRatingRow(movie.voteAverage),
+          _buildRatingRow(movie.voteAverage),
           SizedBox(height: 8),
           if (movie.releaseDate != null)
             Text(
