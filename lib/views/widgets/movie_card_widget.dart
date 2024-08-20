@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_model.dart';
+import 'package:netflix_clone/views/screens/movie_detail_screen.dart';
 
 class MovieCardWidget extends StatelessWidget {
   final Future<MovieModel> future;
@@ -46,11 +48,22 @@ class MovieCardWidget extends StatelessWidget {
                     final movie = data[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          "$imageUrl${movie.posterPath}",
-                          fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) =>
+                                  MovieDetailScreen(id: data[index].id),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            "$imageUrl${movie.posterPath}",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     );

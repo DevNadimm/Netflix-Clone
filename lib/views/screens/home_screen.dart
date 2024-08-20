@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_model.dart';
 import 'package:netflix_clone/models/tv_series_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
+import 'package:netflix_clone/views/screens/search_screen.dart';
 import 'package:netflix_clone/views/widgets/custom_carousel.dart';
 import 'package:netflix_clone/views/widgets/movie_card_widget.dart';
 
@@ -36,18 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (_) => SearchScreen(
+                    isBackButtonShow: true,
+                  ),
+                ),
+              );
+            },
             icon: Icon(Icons.search_rounded),
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: Container(
-              color: Colors.blue,
               height: 27,
               width: 27,
-              child: Center(
-                child: Icon(Icons.person, color: Colors.white, size: 16),
-              ),
+              child: Image.asset('assets/images/profile.jpg'),
             ),
           ),
           SizedBox(width: 20),
