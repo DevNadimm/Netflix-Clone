@@ -67,6 +67,7 @@ class SearchMoviesGrid extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                           ),
+                          maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),
