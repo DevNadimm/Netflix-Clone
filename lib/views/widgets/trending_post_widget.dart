@@ -93,6 +93,9 @@ class TrendingPostWidget extends StatelessWidget {
                       color: Colors.white70,
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),

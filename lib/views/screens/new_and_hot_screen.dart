@@ -50,7 +50,20 @@ class MoreScreen extends StatelessWidget {
           children: [
             SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, top: 25, bottom: 5),
+                    child: Text(
+                      '🍿 Coming Soon',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   TrendingPostWidget(
                     title: 'Vettaiyan: A Warrior\'s Journey Starts October 10',
                     imageUrl: 'assets/images/vettaiyan.png',
@@ -81,7 +94,20 @@ class MoreScreen extends StatelessWidget {
             ),
             SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, top: 25, bottom: 5),
+                    child: Text(
+                      '🔥 Everyone\'s Watching',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   TrendingPostWidget(
                     title: 'Oppenheimer: The mind behind the bomb.',
                     imageUrl: 'assets/images/oppenheimer.jpg',
