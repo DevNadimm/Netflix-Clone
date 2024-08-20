@@ -19,12 +19,9 @@ class MoreScreen extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
               child: Container(
-                color: Colors.blue,
                 height: 27,
                 width: 27,
-                child: Center(
-                  child: Icon(Icons.person, color: Colors.white, size: 16),
-                ),
+                child: Image.asset('assets/images/profile.jpg'),
               ),
             ),
             SizedBox(width: 20),
