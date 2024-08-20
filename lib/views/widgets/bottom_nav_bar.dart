@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/views/screens/home_screen.dart';
-import 'package:netflix_clone/views/screens/more_screen.dart';
+import 'package:netflix_clone/views/screens/new_and_hot_screen.dart';
 import 'package:netflix_clone/views/screens/search_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
