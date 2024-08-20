@@ -26,55 +26,58 @@ class MovieRecommendationModel {
         totalResults: totalResults ?? this.totalResults,
       );
 
-  factory MovieRecommendationModel.fromRawJson(String str) => MovieRecommendationModel.fromJson(json.decode(str));
+  factory MovieRecommendationModel.fromRawJson(String str) =>
+      MovieRecommendationModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory MovieRecommendationModel.fromJson(Map<String, dynamic> json) => MovieRecommendationModel(
-    page: json["page"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-    totalPages: json["total_pages"],
-    totalResults: json["total_results"],
-  );
+  factory MovieRecommendationModel.fromJson(Map<String, dynamic> json) =>
+      MovieRecommendationModel(
+        page: json["page"],
+        results:
+            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+        totalPages: json["total_pages"],
+        totalResults: json["total_results"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "page": page,
-    "results": List<dynamic>.from(results.map((x) => x.toJson())),
-    "total_pages": totalPages,
-    "total_results": totalResults,
-  };
+        "page": page,
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "total_pages": totalPages,
+        "total_results": totalResults,
+      };
 }
 
 class Result {
-  String backdropPath;
+  String? backdropPath;
   int id;
-  String title;
-  String originalTitle;
-  String overview;
-  String posterPath;
-  MediaType mediaType;
+  String? title;
+  String? originalTitle;
+  String? overview;
+  String? posterPath;
+  MediaType? mediaType;
   bool adult;
-  OriginalLanguage originalLanguage;
+  OriginalLanguage? originalLanguage;
   List<int> genreIds;
   double popularity;
-  DateTime releaseDate;
+  DateTime? releaseDate;
   bool video;
   double voteAverage;
   int voteCount;
 
   Result({
-    required this.backdropPath,
+    this.backdropPath,
     required this.id,
-    required this.title,
-    required this.originalTitle,
-    required this.overview,
-    required this.posterPath,
-    required this.mediaType,
+    this.title,
+    this.originalTitle,
+    this.overview,
+    this.posterPath,
+    this.mediaType,
     required this.adult,
-    required this.originalLanguage,
+    this.originalLanguage,
     required this.genreIds,
     required this.popularity,
-    required this.releaseDate,
+    this.releaseDate,
     required this.video,
     required this.voteAverage,
     required this.voteCount,
@@ -120,57 +123,54 @@ class Result {
   String toRawJson() => json.encode(toJson());
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    backdropPath: json["backdrop_path"],
-    id: json["id"],
-    title: json["title"],
-    originalTitle: json["original_title"],
-    overview: json["overview"],
-    posterPath: json["poster_path"],
-    mediaType: mediaTypeValues.map[json["media_type"]]!,
-    adult: json["adult"],
-    originalLanguage: originalLanguageValues.map[json["original_language"]]!,
-    genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
-    popularity: json["popularity"]?.toDouble(),
-    releaseDate: DateTime.parse(json["release_date"]),
-    video: json["video"],
-    voteAverage: json["vote_average"]?.toDouble(),
-    voteCount: json["vote_count"],
-  );
+        backdropPath: json["backdrop_path"],
+        id: json["id"],
+        title: json["title"] ?? "No Title",
+        originalTitle: json["original_title"] ?? "No Original Title",
+        overview: json["overview"] ?? "No Overview",
+        posterPath: json["poster_path"],
+        mediaType: mediaTypeValues.map[json["media_type"]] ?? MediaType.MOVIE,
+        adult: json["adult"],
+        originalLanguage:
+            originalLanguageValues.map[json["original_language"]] ??
+                OriginalLanguage.EN,
+        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        popularity: json["popularity"]?.toDouble() ?? 0.0,
+        releaseDate:
+            json["release_date"] != null && json["release_date"].isNotEmpty
+                ? DateTime.parse(json["release_date"])
+                : null,
+        video: json["video"],
+        voteAverage: json["vote_average"]?.toDouble() ?? 0.0,
+        voteCount: json["vote_count"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "backdrop_path": backdropPath,
-    "id": id,
-    "title": title,
-    "original_title": originalTitle,
-    "overview": overview,
-    "poster_path": posterPath,
-    "media_type": mediaTypeValues.reverse[mediaType],
-    "adult": adult,
-    "original_language": originalLanguageValues.reverse[originalLanguage],
-    "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
-    "popularity": popularity,
-    "release_date": "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
-    "video": video,
-    "vote_average": voteAverage,
-    "vote_count": voteCount,
-  };
+        "backdrop_path": backdropPath,
+        "id": id,
+        "title": title,
+        "original_title": originalTitle,
+        "overview": overview,
+        "poster_path": posterPath,
+        "media_type": mediaTypeValues.reverse[mediaType],
+        "adult": adult,
+        "original_language": originalLanguageValues.reverse[originalLanguage],
+        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
+        "popularity": popularity,
+        "release_date": releaseDate?.toIso8601String(),
+        "video": video,
+        "vote_average": voteAverage,
+        "vote_count": voteCount,
+      };
 }
 
-enum MediaType {
-  MOVIE
-}
+enum MediaType { MOVIE }
 
-final mediaTypeValues = EnumValues({
-  "movie": MediaType.MOVIE
-});
+final mediaTypeValues = EnumValues({"movie": MediaType.MOVIE});
 
-enum OriginalLanguage {
-  EN
-}
+enum OriginalLanguage { EN }
 
-final originalLanguageValues = EnumValues({
-  "en": OriginalLanguage.EN
-});
+final originalLanguageValues = EnumValues({"en": OriginalLanguage.EN});
 
 class EnumValues<T> {
   Map<String, T> map;
