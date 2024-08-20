@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/models/movie_detailed_model.dart';
+import 'package:netflix_clone/models/movie_recommendation_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
+import 'package:netflix_clone/views/widgets/movie_recommendation_widgets.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final int id;
@@ -15,11 +17,13 @@ class MovieDetailScreen extends StatefulWidget {
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
   final ApiServices _apiServices = ApiServices();
   late Future<MovieDetailedModel> _movieDetail;
+  late Future<MovieRecommendationModel> _movieRecommendation;
 
   @override
   void initState() {
     super.initState();
     _movieDetail = _apiServices.getMovieDetail(widget.id);
+    _movieRecommendation = _apiServices.getMovieRecommendation(widget.id);
   }
 
   @override
@@ -61,6 +65,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             children: [
               _buildMoviePoster(movie.posterPath),
               _buildMovieInfo(movie),
+              MovieRecommendationWidgets(
+                  movieRecommendation: _movieRecommendation),
             ],
           ),
         ),
@@ -133,6 +139,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             movie.overview,
             style: _overviewTextStyle,
           ),
+          SizedBox(height: 20),
         ],
       ),
     );
