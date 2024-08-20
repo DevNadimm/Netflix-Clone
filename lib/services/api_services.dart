@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:netflix_clone/models/movie_detailed_model.dart';
 import 'package:netflix_clone/models/movie_model.dart';
+import 'package:netflix_clone/models/movie_recommendation_model.dart';
 import 'package:netflix_clone/models/popular_movie_model.dart';
 import 'package:netflix_clone/models/search_model.dart';
 import 'package:netflix_clone/models/tv_series_model.dart';
@@ -113,6 +114,26 @@ class ApiServices {
       }
     } catch (e) {
       throw Exception('An error occurred while fetching movie detail: $e');
+    }
+  }
+
+
+  Future<MovieRecommendationModel> getMovieRecommendation(int id) async {
+    final String endPoint = 'movie/$id/recommendations';
+    final String url = '$baseUrl$endPoint$key';
+
+    try {
+      final http.Response response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        print('Successfully fetched movie recommendation.');
+        return MovieRecommendationModel.fromJson(data);
+      } else {
+        throw Exception('Failed to load movie recommendation. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('An error occurred while fetching movie recommendation: $e');
     }
   }
 
