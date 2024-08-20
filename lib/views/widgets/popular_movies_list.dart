@@ -44,7 +44,7 @@ class PopularMoviesList extends StatelessWidget {
                       child: CupertinoActivityIndicator(),
                     ),
                     errorWidget: (context, url, error) => Image.asset(
-                      'assets/logo/netflix_logo.png',
+                      'assets/logo/error.png',
                       width: 100,
                       height: 150,
                       fit: BoxFit.cover,

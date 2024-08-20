@@ -73,14 +73,14 @@ class MovieRecommendationWidgets extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   CachedNetworkImage(
-                    imageUrl: posterUrl ?? 'assets/logo/netflix_logo.png',
+                    imageUrl: posterUrl ?? 'assets/logo/error.png',
                     fit: BoxFit.cover,
                     placeholder: (context, url) => const Center(
                       child: CupertinoActivityIndicator(),
                     ),
                     errorWidget: (context, url, error) => Center(
                       child: Image.asset(
-                        'assets/logo/netflix_logo.png',
+                        'assets/logo/error.png',
                       ),
                     ),
                   ),
