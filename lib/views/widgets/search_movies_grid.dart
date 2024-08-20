@@ -31,7 +31,7 @@ class SearchMoviesGrid extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                     builder: (context) => MovieDetailScreen(id: result.id),
                   ),
                 );
