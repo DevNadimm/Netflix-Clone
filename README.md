@@ -1,17 +1,17 @@
 # Netflix-Clone
 
-![Netflix-Clone Cover](https://raw.githubusercontent.com/DevNadimm/Netflix-Clone/main/assets/cover-image.jpg)
+![Netflix-Clone Cover](https://raw.githubusercontent.com/DevNadimm/Netflix-Clone/main/assets/logo/cover_image.png)
 
 ## Overview
 
-Netflix-Clone is a Flutter-based mobile application that replicates the user interface of Netflix. The app integrates with the TMDB (The Movie Database) API to display movie and TV show details, including popular movies, top-rated shows, and more. This project is an excellent example of Flutter's capability in building a feature-rich and responsive UI.
+Netflix-Clone is a Flutter-based mobile application that replicates the user interface of Netflix. The app integrates with the TMDB (The Movie Database) API to display movie and TV show details, including popular movies, top-rated shows, and more. This project showcases Flutter's capability in building a modern and feature-rich user interface.
 
 ## Features
 
 - Browse popular movies and TV shows.
 - View detailed information about each movie or show.
 - Dynamic categories for movies and TV shows.
-- Responsive and adaptive design for different screen sizes.
+- Modern and stylish user interface.
 
 ## Screenshots
 
