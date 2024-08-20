@@ -65,6 +65,14 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             children: [
               _buildMoviePoster(movie.posterPath),
               _buildMovieInfo(movie),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Text(
+                  'More like this',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
               MovieRecommendationWidgets(
                   movieRecommendation: _movieRecommendation),
             ],
@@ -139,7 +147,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             movie.overview,
             style: _overviewTextStyle,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
         ],
       ),
     );
