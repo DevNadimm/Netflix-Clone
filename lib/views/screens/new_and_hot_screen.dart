@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/views/widgets/trending_post_widget.dart';
 
-class MoreScreen extends StatelessWidget {
-  const MoreScreen({super.key});
+class NewAndHotScreen extends StatelessWidget {
+  const NewAndHotScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
