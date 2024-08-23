@@ -38,34 +38,10 @@ To run this project, you will need:
     flutter pub get
     ```
 
-3. **Add your TMDB API key:**
-
-    - Create a `.env` file in the root directory of the project and add your TMDB API key:
-
-    ```env
-    TMDB_API_KEY=your_tmdb_api_key
-    ```
-
-4. **Run the app:**
+3. **Run the app:**
 
     ```bash
     flutter run
-    ```
-
-## API Integration
-
-This app uses the [TMDB API](https://www.themoviedb.org/documentation/api) to fetch and display
-movie and TV show data. To use the API, you'll need to obtain an API key from TMDB and add it to
-your project.
-
-1. **Get your API key:**
-    - Sign up at [TMDB](https://www.themoviedb.org/settings/api) and obtain your API key.
-
-2. **Add your API key:**
-    - Replace the placeholder API key in the project with your own in the `.env` file.
-
-    ```dart
-    const String apiKey = 'YOUR_API_KEY_HERE';
     ```
 
 ## Contributing
